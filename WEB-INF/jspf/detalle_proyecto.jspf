@@ -1,0 +1,143 @@
+<%--
+    detalle_proyecto.jspf: ficha completa de un proyecto (datos, documentos, calificaciones e historial).
+    Requiere antes del include: conexion.jspf y <c:set var="idProy" value="..."/>
+    Lo usan las pantallas de estudiante, director, evaluador y coordinación.
+--%>
+<sql:query var="dpInfo" dataSource="${bd}">
+    SELECT p.id_proyecto, p.codigo, p.fase, p.responsable, p.radicado, p.creado_en,
+           i.titulo, i.descripcion, i.linea, f.nombre AS nombre_fase,
+           CONCAT(e.nombres, ' ', e.apellidos) AS estudiante, e.codigo AS codigo_estudiante, e.correo AS correo_estudiante,
+           CONCAT(d.nombres, ' ', d.apellidos) AS director, d.correo AS correo_director,
+           CONCAT(v.nombres, ' ', v.apellidos) AS evaluador, v.correo AS correo_evaluador
+    FROM proyecto p
+    JOIN idea i ON i.id_idea = p.id_idea
+    JOIN fase f ON f.id_fase = p.fase
+    JOIN usuario e ON e.id_usuario = p.id_estudiante
+    LEFT JOIN usuario d ON d.id_usuario = p.id_director
+    LEFT JOIN usuario v ON v.id_usuario = p.id_evaluador
+    WHERE p.id_proyecto = ?
+    <sql:param value="${idProy}"/>
+</sql:query>
+<sql:query var="dpDocs" dataSource="${bd}">
+    SELECT tipo, nombre_original, ruta, subido_en FROM documento
+    WHERE id_proyecto = ? ORDER BY subido_en DESC, id_documento DESC
+    <sql:param value="${idProy}"/>
+</sql:query>
+<sql:query var="dpEvals" dataSource="${bd}">
+    SELECT ev.rol_evaluador, ev.fase, ev.nota, ev.observaciones, ev.decision, ev.fecha,
+           CONCAT(u.nombres, ' ', u.apellidos) AS autor
+    FROM evaluacion ev JOIN usuario u ON u.id_usuario = ev.id_usuario
+    WHERE ev.id_proyecto = ? ORDER BY ev.fecha DESC, ev.id_evaluacion DESC
+    <sql:param value="${idProy}"/>
+</sql:query>
+<sql:query var="dpHist" dataSource="${bd}">
+    SELECT h.fase_anterior, h.fase_nueva, h.descripcion, h.fecha, CONCAT(u.nombres, ' ', u.apellidos) AS autor
+    FROM historial_fase h JOIN usuario u ON u.id_usuario = h.id_usuario
+    WHERE h.id_proyecto = ? ORDER BY h.fecha DESC, h.id_historial DESC
+    <sql:param value="${idProy}"/>
+</sql:query>
+<c:set var="dp" value="${dpInfo.rows[0]}"/>
+
+<div class="row g-3 mb-3">
+    <div class="col-12 col-lg-7">
+        <div class="tarjeta-dato">
+            <div class="d-flex flex-wrap justify-content-between gap-2 mb-2">
+                <span class="fw-semibold fs-5"><c:out value="${dp.codigo}"/></span>
+                <span>
+                    <c:set var="faseActual" value="${dp.fase}"/><c:set var="resp" value="${dp.responsable}"/>
+                    <%@ include file="/WEB-INF/jspf/estado_proyecto.jspf" %>
+                </span>
+            </div>
+            <h6 class="fw-semibold"><c:out value="${dp.titulo}"/></h6>
+            <p class="small text-muted mb-2"><c:out value="${dp.descripcion}"/></p>
+            <p class="small mb-0"><span class="text-muted">Línea:</span> <c:out value="${dp.linea}"/>
+                &middot; <span class="text-muted">Fase actual:</span> <c:out value="${dp.nombre_fase}"/>
+                <c:if test="${not empty dp.radicado}">&middot; <span class="badge badge-fin">Radicado <c:out value="${dp.radicado}"/></span></c:if>
+            </p>
+        </div>
+    </div>
+    <div class="col-12 col-lg-5">
+        <div class="tarjeta-dato small">
+            <div class="mb-2"><span class="text-muted d-block">Estudiante</span>
+                <c:out value="${dp.estudiante}"/> &middot; <c:out value="${dp.codigo_estudiante}"/><br><c:out value="${dp.correo_estudiante}"/></div>
+            <div class="mb-2"><span class="text-muted d-block">Docente director</span>
+                <c:out value="${empty dp.director ? 'Sin asignar' : dp.director}"/> <c:if test="${not empty dp.director}">&middot; <c:out value="${dp.correo_director}"/></c:if></div>
+            <div><span class="text-muted d-block">Docente evaluador</span>
+                <c:out value="${empty dp.evaluador ? 'Sin asignar' : dp.evaluador}"/> <c:if test="${not empty dp.evaluador}">&middot; <c:out value="${dp.correo_evaluador}"/></c:if></div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-12 col-lg-5">
+        <div class="tarjeta-dato">
+            <h6 class="fw-semibold"><i class="bi bi-file-earmark-pdf text-uts"></i> Documentos</h6>
+            <c:if test="${dpDocs.rowCount == 0}"><p class="small text-muted mb-0">Aún no hay documentos cargados.</p></c:if>
+            <ul class="list-unstyled small mb-0">
+                <c:forEach var="d" items="${dpDocs.rows}">
+                    <li class="d-flex justify-content-between gap-2 py-1 border-bottom">
+                        <span>
+                            <span class="badge badge-fase">
+                                <c:choose>
+                                    <c:when test="${d.tipo eq 'PAGO'}">Pago</c:when>
+                                    <c:when test="${d.tipo eq 'ANTEPROYECTO'}">Anteproyecto</c:when>
+                                    <c:otherwise>Informe final</c:otherwise>
+                                </c:choose>
+                            </span>
+                            <a class="text-uts" href="${ctx}/${fn:escapeXml(d.ruta)}" target="_blank" rel="noopener"><c:out value="${d.nombre_original}"/></a>
+                        </span>
+                        <span class="text-muted text-nowrap"><fmt:formatDate value="${d.subido_en}" pattern="dd/MM/yyyy HH:mm"/></span>
+                    </li>
+                </c:forEach>
+            </ul>
+        </div>
+    </div>
+    <div class="col-12 col-lg-7">
+        <div class="tarjeta-dato">
+            <h6 class="fw-semibold"><i class="bi bi-clock-history text-uts"></i> Historial de fases</h6>
+            <c:if test="${dpHist.rowCount == 0}"><p class="small text-muted mb-0">Sin movimientos.</p></c:if>
+            <ul class="list-unstyled small mb-0">
+                <c:forEach var="h" items="${dpHist.rows}">
+                    <li class="py-1 border-bottom">
+                        <span class="text-muted"><fmt:formatDate value="${h.fecha}" pattern="dd/MM/yyyy HH:mm:ss"/></span>
+                        &middot; Fase <c:out value="${h.fase_anterior}"/> &rarr; <c:out value="${h.fase_nueva}"/>:
+                        <c:out value="${h.descripcion}"/> <span class="text-muted">(<c:out value="${h.autor}"/>)</span>
+                    </li>
+                </c:forEach>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="tarjeta-dato mb-3">
+    <h6 class="fw-semibold"><i class="bi bi-chat-square-text text-uts"></i> Calificaciones y observaciones</h6>
+    <c:choose>
+        <c:when test="${dpEvals.rowCount == 0}"><p class="small text-muted mb-0">Aún no hay calificaciones.</p></c:when>
+        <c:otherwise>
+            <div class="table-responsive">
+                <table class="table table-sm align-middle small mb-0">
+                    <thead><tr><th>Fecha</th><th>Quién</th><th>Fase</th><th>Nota</th><th>Decisión</th><th>Observaciones</th></tr></thead>
+                    <tbody>
+                    <c:forEach var="ev" items="${dpEvals.rows}">
+                        <tr>
+                            <td class="text-nowrap"><fmt:formatDate value="${ev.fecha}" pattern="dd/MM/yyyy HH:mm"/></td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${ev.rol_evaluador eq 'COMITE'}">Comité</c:when>
+                                    <c:when test="${ev.rol_evaluador eq 'DIRECTOR'}">Director</c:when>
+                                    <c:otherwise>Evaluador</c:otherwise>
+                                </c:choose>
+                                <small class="d-block text-muted"><c:out value="${ev.autor}"/></small>
+                            </td>
+                            <td><c:out value="${ev.fase}"/></td>
+                            <td><c:out value="${empty ev.nota ? '—' : ev.nota}"/></td>
+                            <td><span class="badge ${ev.decision eq 'APROBADO' ? 'badge-fin' : 'text-bg-danger'}"><c:out value="${ev.decision}"/></span></td>
+                            <td><c:out value="${ev.observaciones}"/></td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </c:otherwise>
+    </c:choose>
+</div>

@@ -1,0 +1,25 @@
+<%--
+    alertas.jspf: muestra y elimina los mensajes "flash" guardados en sesión por los controladores.
+    Variables de sesión: msgExito, msgError, msgAviso.
+--%>
+<c:if test="${not empty sessionScope.msgExito}">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill me-1"></i> <c:out value="${sessionScope.msgExito}"/>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+    <c:remove var="msgExito" scope="session"/>
+</c:if>
+<c:if test="${not empty sessionScope.msgError}">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-octagon-fill me-1"></i> <c:out value="${sessionScope.msgError}"/>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+    <c:remove var="msgError" scope="session"/>
+</c:if>
+<c:if test="${not empty sessionScope.msgAviso}">
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-1"></i> <c:out value="${sessionScope.msgAviso}"/>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+    <c:remove var="msgAviso" scope="session"/>
+</c:if>

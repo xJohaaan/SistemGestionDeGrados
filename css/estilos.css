@@ -1,0 +1,141 @@
+/* =========================================================
+   Sistema de Gestión de Trabajos de Grado - UTS
+   Paleta institucional: verde lima UTS + grises
+   ========================================================= */
+:root {
+    --uts-verde: #b5c630;
+    --uts-verde-oscuro: #8c9a1e;
+    --uts-verde-claro: #f1f5d6;
+    --uts-gris: #f4f6f9;
+    --uts-gris-borde: #e6e9ef;
+    --uts-texto: #3d4451;
+    --uts-texto-suave: #7b8494;
+    --sidebar-ancho: 260px;
+}
+
+body.app, body.publico {
+    font-family: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--uts-texto);
+    background: var(--uts-gris);
+}
+
+/* ---------- Menú lateral ---------- */
+.sidebar {
+    position: fixed; inset: 0 auto 0 0;
+    width: var(--sidebar-ancho);
+    background: #fff;
+    border-right: 1px solid var(--uts-gris-borde);
+    padding: 1rem;
+    z-index: 1040;
+    overflow-y: auto;
+    transition: transform .25s ease;
+}
+.sidebar-marca {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: .75rem; margin-bottom: 1rem;
+    border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,.05);
+}
+.marca { display: flex; align-items: center; gap: .6rem; text-decoration: none; color: var(--uts-texto); }
+.marca-icono {
+    width: 42px; height: 42px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--uts-verde-claro); color: var(--uts-verde-oscuro); font-size: 1.3rem;
+}
+.marca-texto { font-size: .78rem; line-height: 1.15; font-weight: 600; }
+.marca-texto small { display: block; color: var(--uts-texto-suave); font-weight: 500; }
+.sidebar-menu a {
+    display: flex; align-items: center; gap: .75rem;
+    padding: .7rem 1rem; margin-bottom: .25rem;
+    border-radius: 10px;
+    color: var(--uts-texto-suave); text-decoration: none; font-weight: 500; font-size: .95rem;
+}
+.sidebar-menu a i { font-size: 1.1rem; }
+.sidebar-menu a:hover { background: var(--uts-gris); color: var(--uts-texto); }
+.sidebar-menu a.activo { background: var(--uts-verde); color: #fff; box-shadow: 0 4px 12px rgba(181,198,48,.35); }
+.sidebar-fondo { display: none; }
+
+/* ---------- Contenido ---------- */
+.contenido { margin-left: var(--sidebar-ancho); min-height: 100vh; display: flex; flex-direction: column; }
+.topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin: 1rem 1.5rem 0; padding: .9rem 1.25rem;
+    background: #fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,.04);
+}
+.topbar-titulo { font-size: 1.4rem; font-weight: 600; }
+.usuario-menu { display: flex; align-items: center; gap: .6rem; color: var(--uts-texto); text-decoration: none; font-size: .9rem; }
+.usuario-menu small { font-size: .75rem; text-transform: capitalize; }
+.avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    display: grid; place-items: center; background: #dfe3ea; color: #6b7280; font-size: 1.2rem;
+}
+.pagina { flex: 1; margin: 1.25rem 1.5rem; padding: 1.75rem; background: #fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,.04); }
+.titulo-pagina { font-size: 1.6rem; font-weight: 600; margin-bottom: 1.5rem; }
+.resalte { background: var(--uts-verde); color: #fff; padding: .05em .35em; border-radius: 6px; letter-spacing: .5px; }
+.pie { text-align: center; font-size: .8rem; color: var(--uts-texto-suave); padding: 0 1rem 1.25rem; }
+
+/* ---------- Componentes ---------- */
+.btn-uts { background: var(--uts-verde); border-color: var(--uts-verde); color: #fff; }
+.btn-uts:hover, .btn-uts:focus { background: var(--uts-verde-oscuro); border-color: var(--uts-verde-oscuro); color: #fff; }
+.btn-outline-uts { border-color: var(--uts-verde); color: var(--uts-verde-oscuro); }
+.btn-outline-uts:hover { background: var(--uts-verde); color: #fff; }
+.text-uts { color: var(--uts-verde-oscuro) !important; }
+.form-control:focus, .form-select:focus { border-color: var(--uts-verde); box-shadow: 0 0 0 .2rem rgba(181,198,48,.25); }
+
+.badge-fase { background: var(--uts-verde-claro); color: var(--uts-verde-oscuro); border: 1px solid #dfe7a8; font-weight: 600; }
+.badge-resp { background: #fff8e1; color: #9a7b14; border: 1px solid #f3e2a6; font-weight: 600; }
+.badge-fin  { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; font-weight: 600; }
+
+.tarjeta-dato {
+    border: 1px solid var(--uts-gris-borde); border-radius: 12px; padding: 1.1rem 1.25rem;
+    height: 100%; background: #fff; transition: box-shadow .2s;
+}
+.tarjeta-dato:hover { box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+.tarjeta-dato .icono {
+    width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center;
+    background: var(--uts-verde-claro); color: var(--uts-verde-oscuro); font-size: 1.4rem; margin-bottom: .6rem;
+}
+.tarjeta-dato .numero { font-size: 1.8rem; font-weight: 700; line-height: 1; }
+.tarjeta-dato .etiqueta { color: var(--uts-texto-suave); font-size: .85rem; }
+.tarjeta-dato a { text-decoration: none; }
+
+/* Tarjetas de fases (seguimiento del estudiante) */
+.fase-card {
+    border-radius: 14px; padding: 1.25rem 1rem; text-align: center; height: 100%;
+    border: 2px solid var(--uts-gris-borde); color: var(--uts-texto-suave); background: #fff;
+}
+.fase-card .fase-icono { font-size: 2rem; margin-bottom: .4rem; }
+.fase-card h6 { font-weight: 600; margin-bottom: .35rem; }
+.fase-card p { font-size: .8rem; margin: 0; }
+.fase-card.completada { background: var(--uts-verde); border-color: var(--uts-verde); color: #fff; }
+.fase-card.actual { border-color: var(--uts-verde); color: var(--uts-texto); box-shadow: 0 6px 18px rgba(181,198,48,.25); }
+.fase-card.actual .fase-icono { color: var(--uts-verde-oscuro); }
+
+/* Tablas */
+table.dataTable thead th, .table thead th { font-weight: 600; color: var(--uts-texto); border-bottom-width: 1px; }
+.table > :not(caption) > * > * { padding: .75rem .6rem; }
+.page-item.active .page-link { background: var(--uts-verde); border-color: var(--uts-verde); }
+.page-link { color: var(--uts-verde-oscuro); }
+.btn-accion { width: 36px; height: 36px; display: inline-grid; place-items: center; border-radius: 10px; padding: 0; }
+
+/* Recursos documentales */
+.recurso { text-align: center; padding: 1.5rem 1rem; border-radius: 12px; border: 1px solid var(--uts-gris-borde); height: 100%; color: var(--uts-texto); text-decoration: none; display: block; }
+.recurso:hover { border-color: var(--uts-verde); box-shadow: 0 6px 18px rgba(0,0,0,.06); color: var(--uts-texto); }
+.recurso i { font-size: 2rem; color: var(--uts-texto); }
+.recurso h6 { margin: .6rem 0 .3rem; font-weight: 600; }
+.recurso p { font-size: .82rem; color: var(--uts-texto-suave); margin: 0; }
+
+/* ---------- Páginas públicas (login / landing) ---------- */
+body.publico { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem;
+    background: linear-gradient(135deg, #f7f9ec 0%, #eef1f6 100%); }
+.tarjeta-login { width: 100%; max-width: 420px; border: 0; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+.tarjeta-landing { width: 100%; max-width: 960px; border: 0; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 991.98px) {
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.abierto { transform: translateX(0); box-shadow: 0 0 30px rgba(0,0,0,.2); }
+    .sidebar.abierto + .sidebar-fondo { display: block; position: fixed; inset: 0; background: rgba(0,0,0,.3); z-index: 1030; }
+    .contenido { margin-left: 0; }
+    .topbar { margin: .75rem .75rem 0; }
+    .pagina { margin: .75rem; padding: 1.1rem; }
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Plantilla de credenciales de MySQL.
+    Copie este archivo como META-INF/context.xml y escriba su usuario y contraseña.
+    context.xml está en .gitignore: las credenciales reales nunca se suben al repositorio.
+    Tomcat expone estos parámetros como ${initParam.dbUser} y ${initParam.dbPass}.
+-->
+<Context>
+    <Parameter name="dbUser" value="root" override="false"/>
+    <Parameter name="dbPass" value="CAMBIAR_CLAVE_MYSQL" override="false"/>
+</Context>

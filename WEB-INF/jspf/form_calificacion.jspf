@@ -1,0 +1,37 @@
+<%--
+    form_calificacion.jspf: formulario de nota, observaciones y decisión (director y evaluador).
+    Requiere antes del include:
+        accionForm      URL del controlador
+        idProy          proyecto a calificar
+        tituloForm      texto del encabezado
+        textoAprobar    etiqueta de la opción aprobar
+        textoRechazar   etiqueta de la opción rechazar
+--%>
+<form class="tarjeta-dato needs-validation" method="POST" action="${accionForm}" novalidate style="max-width:820px">
+    <input type="hidden" name="id" value="${idProy}">
+    <h5 class="mb-3"><i class="bi bi-pencil-square text-uts"></i> <c:out value="${tituloForm}"/></h5>
+    <div class="row g-3">
+        <div class="col-12 col-md-3">
+            <label class="form-label" for="nota">Nota (0.0 a 5.0)</label>
+            <input type="number" class="form-control" id="nota" name="nota" min="0" max="5" step="0.1" required>
+            <div class="invalid-feedback">Ingrese una nota entre 0.0 y 5.0.</div>
+        </div>
+        <div class="col-12 col-md-9">
+            <label class="form-label d-block">Decisión</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="decision" id="dAprob" value="APROBADO" required>
+                <label class="form-check-label" for="dAprob"><c:out value="${textoAprobar}"/></label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="decision" id="dRech" value="RECHAZADO" required>
+                <label class="form-check-label" for="dRech"><c:out value="${textoRechazar}"/></label>
+            </div>
+        </div>
+        <div class="col-12">
+            <label class="form-label" for="observaciones">Concepto / observaciones</label>
+            <textarea class="form-control" id="observaciones" name="observaciones" rows="4" maxlength="2000" required></textarea>
+            <div class="invalid-feedback">Escriba el concepto para el estudiante.</div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-uts mt-3"><i class="bi bi-send-check"></i> Registrar calificación</button>
+</form>

@@ -1,0 +1,16 @@
+<%--
+    seguridad.jspf: exige sesión activa y, si la página lo pide, un rol específico.
+    Uso (después de conexion.jspf):
+        <c:set var="rolRequerido" value="ADMIN"/>      (opcional: ADMIN, COORDINACION, DIRECTOR, EVALUADOR, ESTUDIANTE)
+        <%@ include file="/WEB-INF/jspf/seguridad.jspf" %>
+    También evita que el navegador guarde en caché las páginas privadas (botón "Atrás" tras cerrar sesión).
+--%>
+<c:if test="${empty sessionScope.usuario}">
+    <c:redirect url="/login.jsp"/>
+</c:if>
+<c:if test="${not empty rolRequerido and sessionScope.rol ne rolRequerido}">
+    <c:redirect url="/acceso.jsp"/>
+</c:if>
+${pageContext.response.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate')}
+${pageContext.response.setHeader('Pragma', 'no-cache')}
+${pageContext.response.setDateHeader('Expires', 0)}

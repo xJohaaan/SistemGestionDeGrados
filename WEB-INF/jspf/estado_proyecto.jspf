@@ -1,0 +1,18 @@
+<%--
+    estado_proyecto.jspf: etiquetas "Fase N" + responsable actual (como en el sistema UTS).
+    Requiere antes del include: <c:set var="faseActual" .../> y <c:set var="resp" .../>
+--%>
+<span class="badge badge-fase">
+    <c:choose>
+        <c:when test="${faseActual == 6}">Final</c:when>
+        <c:otherwise>Fase <c:out value="${faseActual}"/></c:otherwise>
+    </c:choose>
+</span>
+<c:choose>
+    <c:when test="${resp eq 'ESTUDIANTE'}"><span class="badge badge-resp">Estudiante</span></c:when>
+    <c:when test="${resp eq 'COORDINACION'}"><span class="badge badge-resp">Coordinación</span></c:when>
+    <c:when test="${resp eq 'DIRECTOR'}"><span class="badge badge-resp">Director</span></c:when>
+    <c:when test="${resp eq 'EVALUADOR'}"><span class="badge badge-resp">Evaluador</span></c:when>
+    <c:when test="${resp eq 'COMITE'}"><span class="badge badge-resp">Comité</span></c:when>
+    <c:when test="${resp eq 'FINALIZADO'}"><span class="badge badge-fin">Finalizado</span></c:when>
+</c:choose>
