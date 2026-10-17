@@ -6,7 +6,7 @@
     if (window.jQuery && jQuery.fn.DataTable) {
         jQuery('table.datatable').DataTable({
             pageLength: 5,
-            lengthMenu: [5, 10, 25, 50],
+            lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, 'Todos']],
             order: [],
             language: {
                 lengthMenu: 'Mostrar _MENU_ registros por página',

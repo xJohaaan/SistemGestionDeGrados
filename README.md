@@ -88,6 +88,14 @@ Cada transición se guarda en `historial_fase` con fecha y hora.
 2. Coordinación (en nombre del comité) la **aprueba** o la **rechaza con un motivo** en *Banco de ideas*. También puede crear, editar y eliminar ideas. Las que tienen proyecto no se pueden editar ni eliminar.
 3. Las ideas *Aprobadas* aparecen en el banco. Un estudiante **sin proyecto** pulsa **Seleccionar**. La idea pasa a *Tomada* y se crea su proyecto `GRA-NNNNN` en Fase 1. Desde ahí sigue el flujo de fases. Para probarlo, `nvargas@correo.uts.edu.co` no tiene proyecto.
 
+## Búsqueda y reportes (Coordinación)
+
+- **Buscar estudiante**: por código estudiantil (también acepta solo el inicio del código) o por nombre completo. Muestra el estado del proyecto, el director, el evaluador, el último movimiento y un enlace al historial completo (RF-38, RF-39).
+- **Reportes**, con impresión o PDF desde el navegador:
+  - *Por alumnos*: estado de cada estudiante, última nota y días sin movimiento; en rojo los que llevan más de 30 días (RF-40).
+  - *Por directores*: proyectos asignados, pendientes por calificar, finalizados, aprobaciones, devoluciones y nota promedio (RF-41).
+  - *Por evaluadores*: lo mismo desde la perspectiva del evaluador (RF-42).
+
 ## Recorrer el flujo completo (GRA-00001, Juan Pérez)
 
 | # | Quién entra | Pantalla | Acción | Resultado |

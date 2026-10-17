@@ -130,6 +130,18 @@ body.publico { min-height: 100vh; display: flex; align-items: center; justify-co
 .tarjeta-login { width: 100%; max-width: 420px; border: 0; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,.08); }
 .tarjeta-landing { width: 100%; max-width: 960px; border: 0; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,.08); }
 
+.bg-uts { background: var(--uts-verde) !important; color: #fff !important; }
+
+/* ---------- Impresión de reportes ---------- */
+@media print {
+    .sidebar, .sidebar-fondo, .topbar, .pie, .no-imprimir, .alert,
+    .dataTables_length, .dataTables_filter, .dataTables_paginate { display: none !important; }
+    .contenido { margin-left: 0; }
+    .pagina { margin: 0; padding: 0; box-shadow: none; }
+    body.app { background: #fff; }
+    .badge { border: 1px solid #999; }
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 991.98px) {
     .sidebar { transform: translateX(-100%); }

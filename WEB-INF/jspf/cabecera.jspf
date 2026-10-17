@@ -39,6 +39,8 @@
                 <a class="${menu eq 'ideas' ? 'activo' : ''}" href="${ctx}/coordinacion/ideas.jsp"><i class="bi bi-lightbulb"></i> Banco de ideas</a>
                 <a class="${menu eq 'asignar' ? 'activo' : ''}" href="${ctx}/coordinacion/asignar.jsp"><i class="bi bi-person-plus"></i> Asignar docentes</a>
                 <a class="${menu eq 'comite' ? 'activo' : ''}" href="${ctx}/coordinacion/comite.jsp"><i class="bi bi-people"></i> Comité</a>
+                <a class="${menu eq 'buscar' ? 'activo' : ''}" href="${ctx}/coordinacion/buscar.jsp"><i class="bi bi-search"></i> Buscar estudiante</a>
+                <a class="${menu eq 'reportes' ? 'activo' : ''}" href="${ctx}/coordinacion/reportes.jsp"><i class="bi bi-bar-chart"></i> Reportes</a>
             </c:when>
             <c:when test="${sessionScope.rol eq 'DIRECTOR'}">
                 <a class="${menu eq 'inicio' ? 'activo' : ''}" href="${ctx}/director/index.jsp"><i class="bi bi-person-workspace"></i> Docente Director</a>
