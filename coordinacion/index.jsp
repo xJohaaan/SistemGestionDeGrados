@@ -36,7 +36,7 @@
 <div class="row g-3 mb-4">
     <div class="col-6 col-lg-3">
         <div class="tarjeta-dato"><div class="icono"><i class="bi bi-lightbulb"></i></div>
-            <div class="numero"><c:out value="${t.ideas}"/></div><div class="etiqueta">Ideas por aprobar</div></div>
+            <div class="numero"><c:out value="${t.ideas}"/></div><div class="etiqueta"><a class="text-uts" href="${ctx}/coordinacion/ideas.jsp?estado=Pendiente">Ideas por aprobar</a></div></div>
     </div>
     <div class="col-6 col-lg-3">
         <div class="tarjeta-dato"><div class="icono"><i class="bi bi-person-plus"></i></div>

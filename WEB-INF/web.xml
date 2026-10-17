@@ -30,6 +30,7 @@
         <url-pattern>/evaluador/*</url-pattern>
         <url-pattern>/estudiante/*</url-pattern>
         <url-pattern>/documental/*</url-pattern>
+        <url-pattern>/ideas/*</url-pattern>
         <url-pattern>/uploads/*</url-pattern>
         <url-pattern>/perfil.jsp</url-pattern>
         <url-pattern>/controlador_perfil.jsp</url-pattern>

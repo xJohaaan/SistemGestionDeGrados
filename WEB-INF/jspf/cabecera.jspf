@@ -36,19 +36,26 @@
             </c:when>
             <c:when test="${sessionScope.rol eq 'COORDINACION'}">
                 <a class="${menu eq 'inicio' ? 'activo' : ''}" href="${ctx}/coordinacion/index.jsp"><i class="bi bi-house"></i> Proyectos</a>
+                <a class="${menu eq 'ideas' ? 'activo' : ''}" href="${ctx}/coordinacion/ideas.jsp"><i class="bi bi-lightbulb"></i> Banco de ideas</a>
                 <a class="${menu eq 'asignar' ? 'activo' : ''}" href="${ctx}/coordinacion/asignar.jsp"><i class="bi bi-person-plus"></i> Asignar docentes</a>
                 <a class="${menu eq 'comite' ? 'activo' : ''}" href="${ctx}/coordinacion/comite.jsp"><i class="bi bi-people"></i> Comité</a>
             </c:when>
             <c:when test="${sessionScope.rol eq 'DIRECTOR'}">
                 <a class="${menu eq 'inicio' ? 'activo' : ''}" href="${ctx}/director/index.jsp"><i class="bi bi-person-workspace"></i> Docente Director</a>
+                <a class="${menu eq 'banco' ? 'activo' : ''}" href="${ctx}/ideas/banco.jsp"><i class="bi bi-lightbulb"></i> Banco de ideas</a>
+                <a class="${menu eq 'propuestas' ? 'activo' : ''}" href="${ctx}/ideas/mis_propuestas.jsp"><i class="bi bi-journal-plus"></i> Mis propuestas</a>
             </c:when>
             <c:when test="${sessionScope.rol eq 'EVALUADOR'}">
                 <a class="${menu eq 'inicio' ? 'activo' : ''}" href="${ctx}/evaluador/index.jsp"><i class="bi bi-clipboard-check"></i> Docente Evaluador</a>
+                <a class="${menu eq 'banco' ? 'activo' : ''}" href="${ctx}/ideas/banco.jsp"><i class="bi bi-lightbulb"></i> Banco de ideas</a>
+                <a class="${menu eq 'propuestas' ? 'activo' : ''}" href="${ctx}/ideas/mis_propuestas.jsp"><i class="bi bi-journal-plus"></i> Mis propuestas</a>
             </c:when>
             <c:when test="${sessionScope.rol eq 'ESTUDIANTE'}">
                 <a class="${menu eq 'inicio' ? 'activo' : ''}" href="${ctx}/estudiante/index.jsp"><i class="bi bi-house"></i> Seguimiento</a>
                 <a class="${menu eq 'entregas' ? 'activo' : ''}" href="${ctx}/estudiante/entregas.jsp"><i class="bi bi-cloud-arrow-up"></i> Entregas</a>
                 <a class="${menu eq 'miproyecto' ? 'activo' : ''}" href="${ctx}/estudiante/mi_proyecto.jsp"><i class="bi bi-journal-text"></i> Mi proyecto</a>
+                <a class="${menu eq 'banco' ? 'activo' : ''}" href="${ctx}/ideas/banco.jsp"><i class="bi bi-lightbulb"></i> Banco de ideas</a>
+                <a class="${menu eq 'propuestas' ? 'activo' : ''}" href="${ctx}/ideas/mis_propuestas.jsp"><i class="bi bi-journal-plus"></i> Mis propuestas</a>
             </c:when>
         </c:choose>
         <a class="${menu eq 'perfil' ? 'activo' : ''}" href="${ctx}/perfil.jsp"><i class="bi bi-person-badge"></i> Mi perfil</a>

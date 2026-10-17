@@ -1,0 +1,8 @@
+<%--
+    lineas.jspf: opciones de líneas de investigación para los formularios de ideas.
+    Requiere antes del include: <c:set var="lineaSel" value="..."/> (línea seleccionada, opcional)
+--%>
+<c:forTokens var="lin" delims="|"
+    items="Ingeniería de software|Desarrollo móvil|Inteligencia artificial|Ciencia de datos|Internet de las cosas|Seguridad informática|Redes y telecomunicaciones|Educación y TIC">
+    <option value="${lin}" ${lin eq lineaSel ? 'selected' : ''}><c:out value="${lin}"/></option>
+</c:forTokens>

@@ -40,6 +40,7 @@
             <i class="bi bi-lightbulb display-4 text-uts"></i>
             <h5 class="mt-3">Aún no tienes un proyecto de grado</h5>
             <p class="text-muted">Consulta el banco de ideas y selecciona una idea aprobada para iniciar tu proceso.</p>
+            <a class="btn btn-uts" href="${ctx}/ideas/banco.jsp"><i class="bi bi-lightbulb"></i> Ir al Banco de Ideas</a>
         </div>
     </c:when>
     <c:otherwise>

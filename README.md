@@ -39,6 +39,7 @@ SistemGestionDeGrados/
 ├── director/       módulo "Docente Director" (califica anteproyecto e informe final)
 ├── evaluador/      módulo "Docente Evaluador" (evalúa propuesta e informe final)
 ├── estudiante/     seguimiento por fases, banco de ideas y entregas
+├── ideas/          banco de ideas: consultar, proponer, mis propuestas y seleccionar idea
 ├── documental/     base documental (calendario, formatos, reglamentos)
 ├── css/ js/        estilos UTS y comportamiento común (DataTables, validaciones)
 ├── uploads/        PDF subidos (protegidos por AuthFilter)
@@ -80,6 +81,12 @@ Cada usuario tiene **un solo rol**: `ADMIN`, `COORDINACION`, `DIRECTOR`, `EVALUA
 | 5 Revisión final | Evaluador, luego Comité | → Fase 6 Cierre, con radicado | Vuelve a Fase 4 |
 
 Cada transición se guarda en `historial_fase` con fecha y hora.
+
+## Banco de ideas
+
+1. Un estudiante o docente entra a **Banco de ideas → Proponer idea**. La idea queda *Pendiente* y puede retirarla mientras siga así.
+2. Coordinación (en nombre del comité) la **aprueba** o la **rechaza con un motivo** en *Banco de ideas*. También puede crear, editar y eliminar ideas. Las que tienen proyecto no se pueden editar ni eliminar.
+3. Las ideas *Aprobadas* aparecen en el banco. Un estudiante **sin proyecto** pulsa **Seleccionar**. La idea pasa a *Tomada* y se crea su proyecto `GRA-NNNNN` en Fase 1. Desde ahí sigue el flujo de fases. Para probarlo, `nvargas@correo.uts.edu.co` no tiene proyecto.
 
 ## Recorrer el flujo completo (GRA-00001, Juan Pérez)
 

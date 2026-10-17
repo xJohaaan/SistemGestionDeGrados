@@ -30,7 +30,7 @@
 
 <c:choose>
     <c:when test="${rp.rowCount == 0}">
-        <p class="text-muted">Aún no tienes un proyecto de grado. Selecciona una idea del banco para empezar.</p>
+        <p class="text-muted">Aún no tienes un proyecto de grado. <a class="text-uts" href="${ctx}/ideas/banco.jsp">Selecciona una idea del banco</a> para empezar.</p>
     </c:when>
     <c:otherwise>
         <div class="tarjeta-dato mb-4" style="max-width:720px">

@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
  * Se aplica a las carpetas privadas declaradas en {@code WEB-INF/web.xml}
  * ({@code /admin/*}, {@code /coordinacion/*}, {@code /director/*}, {@code /evaluador/*},
  * {@code /estudiante/*},
- * {@code /documental/*}, {@code /uploads/*} y {@code /perfil.jsp}).
+ * {@code /documental/*}, {@code /ideas/*}, {@code /uploads/*} y {@code /perfil.jsp}).
  * </p>
  * <ul>
  *   <li>Sin sesión activa redirige a {@code login.jsp}.</li>
