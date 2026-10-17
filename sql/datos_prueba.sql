@@ -122,12 +122,12 @@ INSERT INTO historial_fase (id_proyecto, fase_anterior, fase_nueva, id_usuario, 
 (7, 4, 5,  3, 'Informe final aprobado por el director',         '2026-10-01 15:00:00');
 
 -- ---------------------------------------------------------------------
--- Base documental (reemplazar las URL por los enlaces oficiales vigentes)
+-- Base documental: calendario académico oficial UTS y carpeta de documentos de grado
 -- ---------------------------------------------------------------------
 INSERT INTO recurso_documental (titulo, descripcion, url, icono, orden) VALUES
-('Calendario académico',          'Consulta las fechas de los eventos académicos.',                 'https://www.uts.edu.co', 'bi-calendar3',          1),
-('Formatos institucionales',      'Accede a todos los formatos de grado de manera eficiente.',      'https://www.uts.edu.co', 'bi-book',               2),
-('Presentación de propuestas',    'Procedimiento a seguir para la presentación de la propuesta.',   'https://www.uts.edu.co', 'bi-journal-text',       3),
-('Presentación de informe final', 'Procedimiento a seguir para la presentación del informe final.', 'https://www.uts.edu.co', 'bi-file-earmark-check', 4),
-('Reglamento de estímulos',       'Procedimiento a seguir para obtener distinciones o estímulos.',  'https://www.uts.edu.co', 'bi-trophy',             5),
-('Reglamento de trabajos de grado','Procedimiento para elaborar un trabajo de grado.',              'https://www.uts.edu.co', 'bi-list-check',         6);
+('Calendario académico',          'Consulta las fechas de los eventos académicos.',                 'https://www.uts.edu.co/calendario-academico/', 'bi-calendar3',          1),
+('Formatos institucionales',      'Accede a todos los formatos de grado de manera eficiente.',      'https://www.dropbox.com/scl/fo/pudgcaq639agy7t06ahjs/AN084HnuyHffgYL5i--v_Ks/DOCUMENTOS%20DE%20GRADO?dl=0&rlkey=6s0b9ajweteyx2ang7ywvk6xm&subfolder_nav_tracking=1', 'bi-book',               2),
+('Presentación de propuestas',    'Procedimiento a seguir para la presentación de la propuesta.',   'https://www.dropbox.com/scl/fo/pudgcaq639agy7t06ahjs/AN084HnuyHffgYL5i--v_Ks/DOCUMENTOS%20DE%20GRADO?dl=0&rlkey=6s0b9ajweteyx2ang7ywvk6xm&subfolder_nav_tracking=1', 'bi-journal-text',       3),
+('Presentación de informe final', 'Procedimiento a seguir para la presentación del informe final.', 'https://www.dropbox.com/scl/fo/pudgcaq639agy7t06ahjs/AN084HnuyHffgYL5i--v_Ks/DOCUMENTOS%20DE%20GRADO?dl=0&rlkey=6s0b9ajweteyx2ang7ywvk6xm&subfolder_nav_tracking=1', 'bi-file-earmark-check', 4),
+('Reglamento de estímulos',       'Procedimiento a seguir para obtener distinciones o estímulos.',  'https://www.dropbox.com/scl/fo/pudgcaq639agy7t06ahjs/AN084HnuyHffgYL5i--v_Ks/DOCUMENTOS%20DE%20GRADO?dl=0&rlkey=6s0b9ajweteyx2ang7ywvk6xm&subfolder_nav_tracking=1', 'bi-trophy',             5),
+('Reglamento de trabajos de grado','Procedimiento para elaborar un trabajo de grado.',              'https://www.dropbox.com/scl/fo/pudgcaq639agy7t06ahjs/AN084HnuyHffgYL5i--v_Ks/DOCUMENTOS%20DE%20GRADO?dl=0&rlkey=6s0b9ajweteyx2ang7ywvk6xm&subfolder_nav_tracking=1', 'bi-list-check',         6);
