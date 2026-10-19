@@ -7,6 +7,7 @@
 <%@ include file="/WEB-INF/jspf/conexion.jspf" %>
 <c:set var="rolRequerido" value="COORDINACION"/>
 <%@ include file="/WEB-INF/jspf/seguridad.jspf" %>
+<%@ include file="/WEB-INF/jspf/id_seguro.jspf" %>
 <c:if test="${pageContext.request.method ne 'POST'}">
     <c:redirect url="/coordinacion/ideas.jsp"/>
 </c:if>
@@ -37,7 +38,7 @@
         <c:choose>
             <c:when test="${not datosValidos or (param.estado ne 'Pendiente' and param.estado ne 'Aprobada' and param.estado ne 'Rechazada')}">
                 <c:set var="msgError" value="Datos incompletos o inválidos." scope="session"/>
-                <c:set var="destino" value="/coordinacion/form_idea.jsp?id=${param.id}"/>
+                <c:set var="destino" value="/coordinacion/form_idea.jsp?id=${idSeguro}"/>
             </c:when>
             <c:otherwise>
                 <sql:update var="filas" dataSource="${bd}">
@@ -48,7 +49,7 @@
                     <sql:param value="${fn:substring(param.linea, 0, 80)}"/>
                     <sql:param value="${param.estado}"/>
                     <sql:param value="${fn:substring(fn:trim(param.observacion), 0, 300)}"/>
-                    <sql:param value="${param.id}"/>
+                    <sql:param value="${idSeguro}"/>
                 </sql:update>
                 <c:choose>
                     <c:when test="${filas == 1}"><c:set var="msgExito" value="Idea actualizada exitosamente." scope="session"/></c:when>
@@ -61,7 +62,7 @@
     <c:when test="${param.accion eq 'aprobar'}">
         <sql:update var="filas" dataSource="${bd}">
             UPDATE idea SET estado = 'Aprobada', observacion = NULL WHERE id_idea = ? AND estado = 'Pendiente'
-            <sql:param value="${param.id}"/>
+            <sql:param value="${idSeguro}"/>
         </sql:update>
         <c:choose>
             <c:when test="${filas == 1}"><c:set var="msgExito" value="Idea aprobada. Ya es visible en el Banco de Ideas." scope="session"/></c:when>
@@ -78,7 +79,7 @@
                 <sql:update var="filas" dataSource="${bd}">
                     UPDATE idea SET estado = 'Rechazada', observacion = ? WHERE id_idea = ? AND estado = 'Pendiente'
                     <sql:param value="${fn:substring(fn:trim(param.observacion), 0, 300)}"/>
-                    <sql:param value="${param.id}"/>
+                    <sql:param value="${idSeguro}"/>
                 </sql:update>
                 <c:choose>
                     <c:when test="${filas == 1}"><c:set var="msgExito" value="Idea rechazada. El autor verá el motivo en sus propuestas." scope="session"/></c:when>
@@ -92,7 +93,7 @@
         <c:catch var="ex">
             <sql:update var="filas" dataSource="${bd}">
                 DELETE FROM idea WHERE id_idea = ? AND estado <> 'Tomada'
-                <sql:param value="${param.id}"/>
+                <sql:param value="${idSeguro}"/>
             </sql:update>
         </c:catch>
         <c:choose>

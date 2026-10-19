@@ -11,3 +11,6 @@ Thumbs.db
 
 # Credenciales locales de MySQL (usar META-INF/context.example.xml como plantilla)
 META-INF/context.xml
+
+# Clases compiladas de las pruebas
+test/out/

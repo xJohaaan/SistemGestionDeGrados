@@ -45,6 +45,7 @@ SistemGestionDeGrados/
 ├── uploads/        PDF subidos (protegidos por AuthFilter)
 ├── sql/            script de la BD y datos de prueba
 ├── src/            código fuente de AuthFilter (única clase Java)
+├── test/           pruebas JUnit 5 (lib, src, ejecutar_pruebas.bat)
 ├── docs/ diagramas/
 └── WEB-INF/
     ├── web.xml     conexión, filtro, multipart, scripting-invalid, timeout
@@ -95,6 +96,20 @@ Cada transición se guarda en `historial_fase` con fecha y hora.
   - *Por alumnos*: estado de cada estudiante, última nota y días sin movimiento; en rojo los que llevan más de 30 días (RF-40).
   - *Por directores*: proyectos asignados, pendientes por calificar, finalizados, aprobaciones, devoluciones y nota promedio (RF-41).
   - *Por evaluadores*: lo mismo desde la perspectiva del evaluador (RF-42).
+
+## Pruebas automatizadas
+
+43 pruebas JUnit 5, sin Maven (el jar está en `test/lib`). Se ejecutan con:
+
+```
+test\ejecutar_pruebas.bat
+```
+
+- `AuthFilterTest`: pruebas unitarias del filtro de sesión y roles.
+- `ReglasBaseDatosTest`: triggers, restricciones, hash de contraseñas, código GRA y radicado. Cada prueba hace rollback.
+- `FlujoSistemaTest`: flujo completo por HTTP, de la idea al radicado, con rechazos y pruebas de seguridad. Usa usuarios `@test.local` que se borran al terminar. Requiere Tomcat iniciado.
+
+El detalle de la revisión, los hallazgos y las correcciones está en `docs/revision_y_pruebas.md`. Las carpetas `test/`, `docs/`, `sql/` y `src/` no se pueden descargar desde el navegador.
 
 ## Recorrer el flujo completo (GRA-00001, Juan Pérez)
 

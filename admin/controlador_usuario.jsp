@@ -7,6 +7,7 @@
 <%@ include file="/WEB-INF/jspf/conexion.jspf" %>
 <c:set var="rolRequerido" value="ADMIN"/>
 <%@ include file="/WEB-INF/jspf/seguridad.jspf" %>
+<%@ include file="/WEB-INF/jspf/id_seguro.jspf" %>
 <c:if test="${pageContext.request.method ne 'POST'}">
     <c:redirect url="/admin/usuarios.jsp"/>
 </c:if>
@@ -67,14 +68,14 @@
 
     <%-- ===================== EDITAR ===================== --%>
     <c:when test="${param.accion eq 'editar'}">
-        <c:set var="esPropio" value="${param.id eq sessionScope.idUsuario}"/>
+        <c:set var="esPropio" value="${idSeguro eq sessionScope.idUsuario}"/>
         <%-- Un usuario con proyectos asociados no puede cambiar de rol (p. ej. Director a Evaluador) --%>
         <sql:query var="actual" dataSource="${bd}">
             SELECT u.rol,
                    (SELECT COUNT(*) FROM proyecto p
                      WHERE p.id_estudiante = u.id_usuario OR p.id_director = u.id_usuario OR p.id_evaluador = u.id_usuario) AS proyectos
             FROM usuario u WHERE u.id_usuario = ?
-            <sql:param value="${param.id}"/>
+            <sql:param value="${idSeguro}"/>
         </sql:query>
         <c:set var="cambiaRol" value="${actual.rowCount == 1 and actual.rows[0].rol ne param.rol}"/>
         <c:choose>
@@ -83,27 +84,27 @@
             </c:when>
             <c:when test="${cambiaRol and actual.rows[0].proyectos > 0}">
                 <c:set var="msgError" value="No se puede cambiar el rol: el usuario ya participa en proyectos de grado con su rol actual." scope="session"/>
-                <c:set var="destino" value="/admin/form_usuario.jsp?id=${param.id}"/>
+                <c:set var="destino" value="/admin/form_usuario.jsp?id=${idSeguro}"/>
             </c:when>
             <c:when test="${not datosCompletos or (not empty param.contrasena and fn:length(param.contrasena) lt 6)}">
                 <c:set var="msgError" value="Datos incompletos o inválidos. Revise el formulario." scope="session"/>
-                <c:set var="destino" value="/admin/form_usuario.jsp?id=${param.id}"/>
+                <c:set var="destino" value="/admin/form_usuario.jsp?id=${idSeguro}"/>
             </c:when>
             <c:when test="${esPropio and param.rol ne 'ADMIN'}">
                 <c:set var="msgError" value="No puede quitarse a sí mismo el rol de administrador." scope="session"/>
-                <c:set var="destino" value="/admin/form_usuario.jsp?id=${param.id}"/>
+                <c:set var="destino" value="/admin/form_usuario.jsp?id=${idSeguro}"/>
             </c:when>
             <c:otherwise>
                 <sql:query var="dup" dataSource="${bd}">
                     SELECT COUNT(*) AS total FROM usuario WHERE (correo = ? OR codigo = ?) AND id_usuario <> ?
                     <sql:param value="${correo}"/>
                     <sql:param value="${fn:trim(param.codigo)}"/>
-                    <sql:param value="${param.id}"/>
+                    <sql:param value="${idSeguro}"/>
                 </sql:query>
                 <c:choose>
                     <c:when test="${dup.rows[0].total > 0}">
                         <c:set var="msgError" value="Otro usuario ya tiene ese correo o código." scope="session"/>
-                        <c:set var="destino" value="/admin/form_usuario.jsp?id=${param.id}"/>
+                        <c:set var="destino" value="/admin/form_usuario.jsp?id=${idSeguro}"/>
                     </c:when>
                     <c:otherwise>
                         <c:catch var="ex">
@@ -117,7 +118,7 @@
                                     <sql:param value="${correo}"/>
                                     <sql:param value="${fn:trim(param.telefono)}"/>
                                     <sql:param value="${param.rol}"/>
-                                    <sql:param value="${param.id}"/>
+                                    <sql:param value="${idSeguro}"/>
                                 </sql:update>
                                 <c:if test="${not empty param.contrasena}">
                                     <sql:update>
@@ -126,7 +127,7 @@
                                         SET u.salt = s.salt_nuevo, u.contrasena = SHA2(CONCAT(s.salt_nuevo, ?), 256)
                                         WHERE u.id_usuario = ?
                                         <sql:param value="${param.contrasena}"/>
-                                        <sql:param value="${param.id}"/>
+                                        <sql:param value="${idSeguro}"/>
                                     </sql:update>
                                 </c:if>
                             </sql:transaction>
@@ -138,7 +139,7 @@
                                 <c:if test="${esPropio}">
                                     <sql:query var="yo" dataSource="${bd}">
                                         SELECT id_usuario, codigo, nombres, apellidos, correo, rol FROM usuario WHERE id_usuario = ?
-                                        <sql:param value="${param.id}"/>
+                                        <sql:param value="${idSeguro}"/>
                                     </sql:query>
                                     <c:set var="usuario" value="${yo.rows[0]}" scope="session"/>
                                 </c:if>
@@ -158,7 +159,7 @@
         <sql:update var="filas" dataSource="${bd}">
             UPDATE usuario SET estado = IF(estado = 'Activo', 'Inactivo', 'Activo')
             WHERE id_usuario = ? AND id_usuario <> ?
-            <sql:param value="${param.id}"/>
+            <sql:param value="${idSeguro}"/>
             <sql:param value="${sessionScope.idUsuario}"/>
         </sql:update>
         <c:choose>
@@ -172,7 +173,7 @@
         <c:catch var="ex">
             <sql:update var="filas" dataSource="${bd}">
                 DELETE FROM usuario WHERE id_usuario = ? AND id_usuario <> ?
-                <sql:param value="${param.id}"/>
+                <sql:param value="${idSeguro}"/>
                 <sql:param value="${sessionScope.idUsuario}"/>
             </sql:update>
         </c:catch>

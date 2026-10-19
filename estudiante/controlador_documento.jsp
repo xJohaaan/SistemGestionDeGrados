@@ -19,6 +19,16 @@
     <c:set var="archivo" value="${pageContext.request.getPart('archivo')}"/>
 </c:catch>
 
+<%-- Firma del archivo: todo PDF real empieza con los bytes "%PDF" (37, 80, 68, 70).
+     Así se rechaza un .exe o .docx al que solo le cambiaron la extensión. --%>
+<c:if test="${empty exParte and not empty archivo and archivo.size > 0}">
+    <c:catch var="exFirma">
+        <c:set var="flujo" value="${archivo.inputStream}"/>
+        <c:set var="firma" value="${flujo.read()},${flujo.read()},${flujo.read()},${flujo.read()}"/>
+        ${flujo.close()}
+    </c:catch>
+</c:if>
+
 <sql:query var="rp" dataSource="${bd}">
     SELECT id_proyecto, codigo, fase, responsable FROM proyecto WHERE id_estudiante = ?
     <sql:param value="${sessionScope.idUsuario}"/>
@@ -42,6 +52,9 @@
     </c:when>
     <c:when test="${not fn:endsWith(fn:toLowerCase(archivo.submittedFileName), '.pdf')}">
         <c:set var="msgError" value="Solo se permiten archivos en formato PDF." scope="session"/>
+    </c:when>
+    <c:when test="${firma ne '37,80,68,70'}">
+        <c:set var="msgError" value="El archivo no es un PDF válido (su contenido no corresponde a un PDF)." scope="session"/>
     </c:when>
     <c:when test="${archivo.size > 20971520}">
         <c:set var="msgError" value="El archivo supera el tamaño máximo permitido (20 MB)." scope="session"/>

@@ -1,0 +1,10 @@
+<%--
+    id_seguro.jspf: convierte param.id a número en la variable idSeguro.
+    Si el valor no es numérico (por ejemplo "abc" o "1'--"), idSeguro queda en 0 y la consulta
+    simplemente no encuentra registros, en lugar de producir un error 500.
+    Uso en controladores: <%@ include file="/WEB-INF/jspf/id_seguro.jspf" %> y luego ${idSeguro}.
+--%>
+<c:set var="idSeguro" value="0"/>
+<c:catch var="exIdSeguro">
+    <c:set var="idSeguro" value="${empty param.id ? 0 : param.id + 0}"/>
+</c:catch>

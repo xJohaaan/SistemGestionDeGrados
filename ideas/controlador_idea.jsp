@@ -8,6 +8,7 @@
 --%>
 <%@ include file="/WEB-INF/jspf/conexion.jspf" %>
 <%@ include file="/WEB-INF/jspf/seguridad.jspf" %>
+<%@ include file="/WEB-INF/jspf/id_seguro.jspf" %>
 <c:if test="${pageContext.request.method ne 'POST'}">
     <c:redirect url="/ideas/banco.jsp"/>
 </c:if>
@@ -41,7 +42,7 @@
         <c:set var="destino" value="/ideas/mis_propuestas.jsp"/>
         <sql:update var="filas" dataSource="${bd}">
             DELETE FROM idea WHERE id_idea = ? AND id_autor = ? AND estado = 'Pendiente'
-            <sql:param value="${param.id}"/>
+            <sql:param value="${idSeguro}"/>
             <sql:param value="${sessionScope.idUsuario}"/>
         </sql:update>
         <c:choose>
@@ -65,12 +66,12 @@
                     <sql:transaction dataSource="${bd}">
                         <sql:update var="tomada">
                             UPDATE idea SET estado = 'Tomada' WHERE id_idea = ? AND estado = 'Aprobada'
-                            <sql:param value="${param.id}"/>
+                            <sql:param value="${idSeguro}"/>
                         </sql:update>
                         <c:if test="${tomada == 1}">
                             <sql:update>
                                 INSERT INTO proyecto (id_idea, id_estudiante, fase, responsable) VALUES (?, ?, 1, 'ESTUDIANTE')
-                                <sql:param value="${param.id}"/>
+                                <sql:param value="${idSeguro}"/>
                                 <sql:param value="${sessionScope.idUsuario}"/>
                             </sql:update>
                             <sql:update>

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isErrorPage="true" %>
 <%--
-    error.jsp: página para errores 404 y 500 (no muestra detalles técnicos al usuario).
+    error.jsp: página para errores 403, 404 y 500 (no muestra detalles técnicos al usuario).
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
@@ -20,7 +20,7 @@
     <div class="card-body p-4 p-md-5 text-center">
         <i class="bi bi-exclamation-triangle display-4 text-warning"></i>
         <c:choose>
-            <c:when test="${pageContext.errorData.statusCode == 404}">
+            <c:when test="${pageContext.errorData.statusCode == 404 or pageContext.errorData.statusCode == 403}">
                 <h1 class="h4 fw-semibold mt-2">Página no encontrada</h1>
                 <p class="text-muted">La dirección solicitada no existe.</p>
             </c:when>

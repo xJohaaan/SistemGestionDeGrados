@@ -88,10 +88,35 @@
         <tracking-mode>COOKIE</tracking-mode>
     </session-config>
 
+    <!--
+        Archivos internos del proyecto que NUNCA deben descargarse desde el navegador:
+        repositorio git, código fuente, scripts SQL (contienen datos de prueba), pruebas y documentación.
+        Un auth-constraint vacío niega el acceso a todos (HTTP 403).
+    -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Archivos internos</web-resource-name>
+            <url-pattern>/.git/*</url-pattern>
+            <url-pattern>/src/*</url-pattern>
+            <url-pattern>/sql/*</url-pattern>
+            <url-pattern>/test/*</url-pattern>
+            <url-pattern>/docs/*</url-pattern>
+            <url-pattern>/diagramas/*</url-pattern>
+            <url-pattern>/README.md</url-pattern>
+            <url-pattern>/.gitignore</url-pattern>
+            <url-pattern>/.gitattributes</url-pattern>
+        </web-resource-collection>
+        <auth-constraint/>
+    </security-constraint>
+
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
+    <error-page>
+        <error-code>403</error-code>
+        <location>/error.jsp</location>
+    </error-page>
     <error-page>
         <error-code>404</error-code>
         <location>/error.jsp</location>

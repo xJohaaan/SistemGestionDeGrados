@@ -9,13 +9,14 @@
 <%@ include file="/WEB-INF/jspf/conexion.jspf" %>
 <c:set var="rolRequerido" value="COORDINACION"/>
 <%@ include file="/WEB-INF/jspf/seguridad.jspf" %>
+<%@ include file="/WEB-INF/jspf/id_seguro.jspf" %>
 <c:if test="${pageContext.request.method ne 'POST'}">
     <c:redirect url="/coordinacion/comite.jsp"/>
 </c:if>
 
 <sql:query var="rp" dataSource="${bd}">
     SELECT id_proyecto, fase FROM proyecto WHERE id_proyecto = ? AND responsable = 'COMITE'
-    <sql:param value="${param.id}"/>
+    <sql:param value="${idSeguro}"/>
 </sql:query>
 <c:set var="aprobado" value="${param.decision eq 'APROBADO'}"/>
 <c:choose>
@@ -56,14 +57,14 @@
                     <sql:param value="${faseNueva}"/>
                     <sql:param value="${respNuevo}"/>
                     <sql:param value="${faseNueva}"/>
-                    <sql:param value="${param.id}"/>
+                    <sql:param value="${idSeguro}"/>
                     <sql:param value="${faseActual}"/>
                 </sql:update>
                 <c:if test="${filas == 1}">
                     <sql:update>
                         INSERT INTO evaluacion (id_proyecto, id_usuario, rol_evaluador, fase, nota, observaciones, decision)
                         VALUES (?, ?, 'COMITE', ?, NULL, ?, ?)
-                        <sql:param value="${param.id}"/>
+                        <sql:param value="${idSeguro}"/>
                         <sql:param value="${sessionScope.idUsuario}"/>
                         <sql:param value="${faseActual}"/>
                         <sql:param value="Acta de comité No. ${fn:trim(param.acta)}: ${fn:trim(param.observaciones)}"/>
@@ -72,7 +73,7 @@
                     <sql:update>
                         INSERT INTO historial_fase (id_proyecto, fase_anterior, fase_nueva, id_usuario, descripcion)
                         VALUES (?, ?, ?, ?, ?)
-                        <sql:param value="${param.id}"/>
+                        <sql:param value="${idSeguro}"/>
                         <sql:param value="${faseActual}"/>
                         <sql:param value="${faseNueva}"/>
                         <sql:param value="${sessionScope.idUsuario}"/>

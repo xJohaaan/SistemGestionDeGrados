@@ -6,6 +6,9 @@
     Tomcat expone estos parámetros como ${initParam.dbUser} y ${initParam.dbPass}.
 -->
 <Context>
+    <!-- Cookie de sesión con SameSite=Lax: el navegador no la envía en formularios POST
+         que vienen de otros sitios (protección contra CSRF). -->
+    <CookieProcessor sameSiteCookies="lax"/>
     <Parameter name="dbUser" value="root" override="false"/>
     <Parameter name="dbPass" value="CAMBIAR_CLAVE_MYSQL" override="false"/>
 </Context>

@@ -8,6 +8,7 @@
 <%@ include file="/WEB-INF/jspf/conexion.jspf" %>
 <c:set var="rolRequerido" value="DIRECTOR"/>
 <%@ include file="/WEB-INF/jspf/seguridad.jspf" %>
+<%@ include file="/WEB-INF/jspf/id_seguro.jspf" %>
 <c:if test="${pageContext.request.method ne 'POST'}">
     <c:redirect url="/director/index.jsp"/>
 </c:if>
@@ -18,10 +19,10 @@
 <sql:query var="rp" dataSource="${bd}">
     SELECT id_proyecto, fase FROM proyecto
     WHERE id_proyecto = ? AND id_director = ? AND responsable = 'DIRECTOR' AND fase IN (2, 4)
-    <sql:param value="${param.id}"/>
+    <sql:param value="${idSeguro}"/>
     <sql:param value="${sessionScope.idUsuario}"/>
 </sql:query>
-<c:set var="destino" value="/director/calificar.jsp?id=${param.id}"/>
+<c:set var="destino" value="/director/calificar.jsp?id=${idSeguro}"/>
 <c:choose>
     <c:when test="${rp.rowCount == 0}">
         <c:set var="msgError" value="Este proyecto no tiene revisiones pendientes de su parte." scope="session"/>
@@ -53,7 +54,7 @@
                     WHERE id_proyecto = ? AND id_director = ? AND responsable = 'DIRECTOR' AND fase = ?
                     <sql:param value="${faseNueva}"/>
                     <sql:param value="${respNuevo}"/>
-                    <sql:param value="${param.id}"/>
+                    <sql:param value="${idSeguro}"/>
                     <sql:param value="${sessionScope.idUsuario}"/>
                     <sql:param value="${faseActual}"/>
                 </sql:update>
@@ -61,7 +62,7 @@
                     <sql:update>
                         INSERT INTO evaluacion (id_proyecto, id_usuario, rol_evaluador, fase, nota, observaciones, decision)
                         VALUES (?, ?, 'DIRECTOR', ?, ?, ?, ?)
-                        <sql:param value="${param.id}"/>
+                        <sql:param value="${idSeguro}"/>
                         <sql:param value="${sessionScope.idUsuario}"/>
                         <sql:param value="${faseActual}"/>
                         <sql:param value="${param.nota}"/>
@@ -71,7 +72,7 @@
                     <sql:update>
                         INSERT INTO historial_fase (id_proyecto, fase_anterior, fase_nueva, id_usuario, descripcion)
                         VALUES (?, ?, ?, ?, ?)
-                        <sql:param value="${param.id}"/>
+                        <sql:param value="${idSeguro}"/>
                         <sql:param value="${faseActual}"/>
                         <sql:param value="${faseNueva}"/>
                         <sql:param value="${sessionScope.idUsuario}"/>
