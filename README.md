@@ -19,6 +19,15 @@ Aplicación web para gestionar los trabajos de grado de Ingeniería de Sistemas,
 5. Iniciar Tomcat desde el panel de XAMPP y abrir `http://localhost:8080/SistemGestionDeGrados/`.
    Tras cambiar `web.xml` o el filtro, reiniciar Tomcat.
 
+## Despliegue en Clever Cloud
+
+- **URL:** https://sistema-trabajos-grado-uts.cleverapps.io
+- App WAR sobre TOMCAT9 con el complemento MySQL DEV `sistema-grados-bd` (región París).
+- `conexion.jspf` usa las variables `MYSQL_ADDON_*` cuando existen; en local usa `context.xml`.
+- La carpeta de despliegue es `C:\xampp\clever-deploy\sistema-grados`: un repositorio con `clevercloud/war.json` y `target/sistema-grados.war`. Para actualizar, reconstruya el WAR y ejecute `clever deploy`.
+- En el plan DEV de MySQL no se permiten triggers. En la nube, las reglas de roles las valida la aplicación.
+- Los PDF que se suben en la nube se pierden en cada nuevo despliegue, porque el disco de la instancia no es persistente.
+
 ## Usuarios de prueba (contraseña `clave123`)
 
 | Rol | Correo |
