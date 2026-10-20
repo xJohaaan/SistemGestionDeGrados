@@ -1,6 +1,8 @@
 <%--
     conexion.jspf: declara las librerías JSTL y la conexión a MySQL.
-    Las credenciales se leen de WEB-INF/web.xml (context-param), único lugar para cambiarlas.
+    - En el equipo local: URL en WEB-INF/web.xml y usuario/clave en META-INF/context.xml.
+    - En Clever Cloud: se usan las variables de entorno del complemento MySQL
+      (MYSQL_ADDON_HOST, _PORT, _DB, _USER, _PASSWORD), leídas con EL 3.0 (System.getenv).
     Uso: <%@ include file="/WEB-INF/jspf/conexion.jspf" %> al inicio de cada JSP.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -11,5 +13,18 @@
 <fmt:setLocale value="es_CO"/>
 <fmt:setTimeZone value="America/Bogota"/>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
-<sql:setDataSource var="bd" driver="com.mysql.cj.jdbc.Driver"
-    url="${initParam.dbUrl}" user="${initParam.dbUser}" password="${initParam.dbPass}"/>
+<c:set var="bdHostNube" value="${System.getenv('MYSQL_ADDON_HOST')}"/>
+<c:choose>
+    <c:when test="${not empty bdHostNube}">
+        <%-- La sesión de MySQL usa la hora de Colombia (el servidor en la nube está en UTC) --%>
+        <c:set var="bdUrl" value="jdbc:mysql://${bdHostNube}:${System.getenv('MYSQL_ADDON_PORT')}/${System.getenv('MYSQL_ADDON_DB')}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Bogota&useUnicode=true&characterEncoding=UTF-8&useOldAliasMetadataBehavior=true&sessionVariables=time_zone='-05:00'"/>
+        <c:set var="bdUsuario" value="${System.getenv('MYSQL_ADDON_USER')}"/>
+        <c:set var="bdClave" value="${System.getenv('MYSQL_ADDON_PASSWORD')}"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="bdUrl" value="${initParam.dbUrl}"/>
+        <c:set var="bdUsuario" value="${initParam.dbUser}"/>
+        <c:set var="bdClave" value="${initParam.dbPass}"/>
+    </c:otherwise>
+</c:choose>
+<sql:setDataSource var="bd" driver="com.mysql.cj.jdbc.Driver" url="${bdUrl}" user="${bdUsuario}" password="${bdClave}"/>
